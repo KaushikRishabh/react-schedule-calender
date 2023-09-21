@@ -1,0 +1,14 @@
+/* TimeSlotGroup styles */
+.text-right {
+  padding-right: 10px;
+  border-right: 1px solid #eaeaea;
+}
+
+/* TimeSlot styles */
+.col {
+  transition: background-color 0.3s;
+}
+
+.col:hover {
+  background-color: #f5f5f5;
+}

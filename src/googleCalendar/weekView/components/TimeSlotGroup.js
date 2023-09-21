@@ -5,16 +5,20 @@ import TimeSlot from "./TimeSlot";
 function TimeSlotGroup(props) {
   return (
     <Row>
-      <Col>{props.time}</Col>
+      <Col xs={1} className="text-right pr-0">
+        {props.time}:00
+      </Col>
       {props.weekDays.map((day) => (
         <TimeSlot
           key={day.dateStamp}
           dateStamp={day.dateStamp}
           time={props.time}
           openAddEventModal={props.openAddEventModal}
+          events={props.events}
+          onEventUpdate={props.onEventUpdate}
+          onEventDelete={props.onEventDelete}
         />
       ))}
-      {props.children}
     </Row>
   );
 }

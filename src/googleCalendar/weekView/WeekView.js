@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import moment from "moment";
 import AddEventModal from "./components/AddEventModal";
+import WeekHeader from "./components/WeekHeader";
+import TimeSlotGroup from "./components/TimeSlotGroup";
+import "./styles.css";
 
 function WeekView(props) {
   const [startDate, setStartDate] = useState(moment());
@@ -31,6 +34,15 @@ function WeekView(props) {
     setEventEnd(end);
   };
 
+  const weekDays = Array.from({ length: 7 }).map((_, i) => {
+    const date = moment(startDate).add(i, "days");
+    return {
+      dateStamp: date.valueOf(),
+      weekDayName: date.format("ddd"),
+      date: date.format("D MMM"),
+    };
+  });
+
   return (
     <div>
       <AddEventModal
@@ -51,7 +63,18 @@ function WeekView(props) {
           <Button onClick={goToNextWeek}>Next</Button>
         </Col>
       </Row>
-      {/* Here you'll add the WeekHeader, TimeSlotGroup, and other components */}
+      <WeekHeader weekDays={weekDays} />
+      {Array.from({ length: 24 }).map((hour) => (
+        <TimeSlotGroup
+          key={hour}
+          time={hour}
+          weekDays={weekDays}
+          openAddEventModal={openAddEventModal}
+          events={props.events}
+          onEventUpdate={props.onEventUpdate}
+          onEventDelete={props.onEventDelete}
+        />
+      ))}
     </div>
   );
 }
