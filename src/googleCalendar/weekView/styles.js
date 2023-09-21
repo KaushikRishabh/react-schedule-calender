@@ -1,12 +1,12 @@
 export const weekHeaderStyle = {
   backgroundColor: "#f5f5f5",
   padding: "10px 0",
-  fontWeight: "bold"
+  fontWeight: "bold",
 };
 
 export const timeSlotStyle = {
   border: "1px solid #eaeaea",
-  height: "60px"
+  height: "60px",
 };
 
 export const eventHighlighterStyle = {
@@ -14,5 +14,5 @@ export const eventHighlighterStyle = {
   color: "#fff",
   padding: "5px",
   borderRadius: "5px",
-  cursor: "pointer"
+  cursor: "pointer",
 };

@@ -63,18 +63,20 @@ function WeekView(props) {
           <Button onClick={goToNextWeek}>Next</Button>
         </Col>
       </Row>
-      <WeekHeader weekDays={weekDays} />
-      {Array.from({ length: 24 }).map((hour) => (
-        <TimeSlotGroup
-          key={hour}
-          time={hour}
-          weekDays={weekDays}
-          openAddEventModal={openAddEventModal}
-          events={props.events}
-          onEventUpdate={props.onEventUpdate}
-          onEventDelete={props.onEventDelete}
-        />
-      ))}
+      <Row>
+        <WeekHeader weekDays={weekDays} />
+        {Array.from({ length: 24 }).map((_, hour) => (
+          <TimeSlotGroup
+            key={hour}
+            time={hour}
+            weekDays={weekDays}
+            openAddEventModal={openAddEventModal}
+            events={props.events}
+            onEventUpdate={props.onEventUpdate}
+            onEventDelete={props.onEventDelete}
+          />
+        ))}
+      </Row>
     </div>
   );
 }

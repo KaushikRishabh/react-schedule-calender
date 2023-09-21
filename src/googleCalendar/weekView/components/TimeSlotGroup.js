@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import TimeSlot from "./TimeSlot";
 
 function TimeSlotGroup(props) {
+  // console.log("props", props);
   return (
     <Row>
       <Col xs={1} className="text-right pr-0">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { eventHighlighterStyle } from "../styles";
+// import { eventHighlighterStyle } from "../styles";
 import moment from "moment";
 import EditEventModal from "./EditEventModal";
 

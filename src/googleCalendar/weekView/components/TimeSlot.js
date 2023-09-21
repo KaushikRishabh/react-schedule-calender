@@ -3,12 +3,8 @@ import { Col } from "react-bootstrap";
 import EventHighlighter from "./EventHighlighter";
 
 function TimeSlot(props) {
-  const eventsForThisSlot = props?.events?.filter((event) => {
-    // Logic to determine if the event falls within this time slot
-    return (
-      event.start >= props.dateStamp && event.end <= props.dateStamp + 3600000
-    ); // 1 hour in milliseconds
-  });
+  const eventsForThisSlot =
+    props.events[props.dateStamp + props.time * 3600000] || [];
 
   return (
     <Col
