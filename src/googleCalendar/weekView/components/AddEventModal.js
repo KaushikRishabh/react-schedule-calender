@@ -1,21 +1,30 @@
-import React, { useState } from "react";
-import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
+import React from "react";
+import { Modal, Button } from "react-bootstrap";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function AddEventModal(props) {
-  const [title, setTitle] = useState("");
-  const [start, setStart] = useState(props.eventStart);
-  const [end, setEnd] = useState(props.eventEnd);
-
-  const handleSave = () => {
-    props.onEventAdd({
-      title,
-      start,
-      end
-    });
-    setTitle("");
-    props.onHide();
-  };
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      start: props.eventStart,
+      end: props.eventEnd,
+    },
+    validationSchema: Yup.object({
+      title: Yup.string().required("Required"),
+      start: Yup.date().required("Required"),
+      end: Yup.date()
+        .required("Required")
+        .min(Yup.ref("start"), "End date should be after start date"),
+    }),
+    onSubmit: (values) => {
+      props.onEventAdd(values);
+      formik.resetForm();
+      props.onHide();
+    },
+  });
 
   return (
     <Modal show={props.show} onHide={props.onHide}>
@@ -23,45 +32,58 @@ function AddEventModal(props) {
         <Modal.Title>Add Event</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text>Title</InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Event Title"
+        <form onSubmit={formik.handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="title" className="form-label">
+              Title
+            </label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              className="form-control"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.title}
             />
-          </InputGroup>
-          <DatePicker
-            selected={start}
-            onChange={(date) => setStart(date)}
-            showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={15}
-            dateFormat="MMMM d, yyyy h:mm aa"
-            timeCaption="time"
-          />
-          <DatePicker
-            selected={end}
-            onChange={(date) => setEnd(date)}
-            showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={15}
-            dateFormat="MMMM d, yyyy h:mm aa"
-            timeCaption="time"
-          />
-        </Form>
+            {formik.touched.title && formik.errors.title ? (
+              <div className="text-danger">{formik.errors.title}</div>
+            ) : null}
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Start</label>
+            <DatePicker
+              selected={formik.values.start}
+              onChange={(date) => formik.setFieldValue("start", date)}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="MMMM d, yyyy h:mm aa"
+              timeCaption="time"
+              className="form-control"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">End</label>
+            <DatePicker
+              selected={formik.values.end}
+              onChange={(date) => formik.setFieldValue("end", date)}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="MMMM d, yyyy h:mm aa"
+              timeCaption="time"
+              className="form-control"
+            />
+          </div>
+          <Button variant="secondary" onClick={props.onHide}>
+            Close
+          </Button>
+          <Button variant="primary" type="submit">
+            Save Changes
+          </Button>
+        </form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={handleSave}>
-          Save Changes
-        </Button>
-      </Modal.Footer>
     </Modal>
   );
 }

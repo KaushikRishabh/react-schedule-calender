@@ -1,7 +1,5 @@
 import moment from "moment";
 
-import moment from "moment";
-
 /**
  * Generate all days in a week
  * @param {moment} currentDate - Any date in the week
@@ -13,42 +11,27 @@ export const getAllDaysInTheWeek = (currentDate = moment()) => {
   const days = Array.from(Array(7))
     .map((day, index) => index)
     .map((day) =>
-      moment(weekStart).add(day, "days").set("minutes", 0).set("seconds", 0)
+      moment(weekStart).add(day, "days").set("minutes", 0).set("seconds", 0),
     )
     .map((momentObj) => ({
       date: momentObj.date(),
       dateStamp: +momentObj,
-      weekDayName: momentObj.format("ddd")
+      weekDayName: momentObj.format("ddd"),
     }));
 
   return days;
 };
+//Checking todays date
+export const isToday = (dateStamp) => {
+  const today = moment().startOf("day");
+  const date = moment(dateStamp).startOf("day");
+  return today.isSame(date);
+};
 
 // All the hours in the day
 export const times = [
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20,
-  21,
-  22,
-  23
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23,
 ];
 
 /**
@@ -99,8 +82,8 @@ export const generateWeekViewCoordinates = (event, startDate) => {
           weekStart
             .startOf("week")
             .set("hours", start.hours())
-            .set("minutes", start.minutes())
-        )
+            .set("minutes", start.minutes()),
+        ),
       )
       .days();
     width = (daysDiff + 1) * 12.5 - 2;
@@ -118,7 +101,7 @@ export const generateWeekViewCoordinates = (event, startDate) => {
     top: top + "%",
     left: left + "%",
     height: height + "%",
-    width: width + "%"
+    width: width + "%",
   };
 };
 

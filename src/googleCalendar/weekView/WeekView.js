@@ -27,6 +27,7 @@ function WeekView(props) {
   };
 
   const openAddEventModal = (dateStamp, time) => {
+    debugger;
     const start = moment(dateStamp).set("hour", time);
     const end = start.clone().add(1, "hour");
     setShowAddEventModal(true);
